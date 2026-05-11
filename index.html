@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>VinylFun – urządzenie audio z efektem winylowym</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VinylFun – kompaktowe urządzenie audio z efektem winylowym. Idealne do lokali, sklepów i salonów. Włączasz – gra.">
+    <style>
+        :root {
+            --bg: #050509;
+            --bg-alt: #0c0c12;
+            --accent: #f5c96b;
+            --accent-soft: #f5e1b0;
+            --text: #f5f5f5;
+            --muted: #a0a0b5;
+            --card: #15151f;
+            --border: #262637;
+            --danger: #ff4b6b;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-display: "Segoe UI", system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background: radial-gradient(circle at top, #151520 0, #050509 55%, #020208 100%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .page {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 24px 16px 64px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 8px 0 24px;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-mark::before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(245,201,107,0.35) 0, transparent 55%);
+            opacity: 0.7;
+        }
+
+        .logo-mark span {
+            position: relative;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text-main {
+            font-family: var(--font-display);
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .logo-text-sub {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--muted);
+        }
+
+        .header-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--accent);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent-soft);
+            background: linear-gradient(135deg, rgba(245,201,107,0.12), rgba(245,201,107,0.02));
+        }
+
+        .header-cta a span {
+            font-size: 16px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+            gap: 32px;
+            align-items: center;
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .hero-kicker {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent-soft);
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 36px);
+            line-height: 1.15;
+            margin: 0 0 12px;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            color: var(--muted);
+            font-size: 14px;
+            max-width: 460px;
+        }
+
+        .hero-bullets {
+            margin: 18px 0 20px;
+            display: grid;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .hero-bullets span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-bullets span::before {
+            content: "●";
+            font-size: 8px;
+            color: var(--accent);
+        }
+
+        .hero-cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #f5c96b, #f58b3b);
+            color: #1a1205;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            cursor: pointer;
+        }
+
+        .btn-primary span {
+            font-size: 16px;
+        }
+
+        .btn-ghost {
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--muted);
+            background: rgba(5,5,12,0.7);
+        }
+
+        .hero-note {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .hero-device {
+            background: radial-gradient(circle at top, #26263a 0, #15151f 55%, #050509 100%);
+            border-radius: 18px;
+            padding: 18px 18px 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .device-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .device-name {
+            font-size: 13px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+        }
+
+        .device-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--muted);
+        }
+
+        .device-main {
+            border-radius: 14px;
+            border: 1px solid #303046;
+            background: radial-gradient(circle at 20% 0, rgba(245,201,107,0.18) 0, transparent 55%), #10101a;
+            padding: 16px 16px 14px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 800px) {
+            .device-main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .device-front {
+            border-radius: 12px;
+            border: 1px solid #3a3a55;
+            background: linear-gradient(145deg, #181824, #101018);
+            padding: 14px 16px 12px;
+            position: relative;
+        }
+
+        .device-front::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 10% 0, rgba(245,201,107,0.18) 0, transparent 55%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .device-front-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .device-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .device-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--muted);
+        }
+
+        .device-leds {
+            display: flex;
+            gap: 6px;
+        }
+
+        .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #26263a;
+        }
+
+        .led.on {
+            background: #f5c96b;
+            box-shadow: 0 0 8px rgba(245,201,107,0.9);
+        }
+
+        .device-screen {
+            border-radius: 10px;
+            border: 1px solid #303046;
+            background: radial-gradient(circle at 0 0, rgba(245,201,107,0.18) 0, transparent 55%), #050509;
+            padding: 10px 12px;
+            font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 11px;
+            color: var(--accent-soft);
+        }
+
+        .device-screen-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .device-screen-line span:last-child {
+            color: var(--muted);
+        }
+
+        .device-knob-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .knob {
+            width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            border: 1px solid #3a3a55;
+            background: radial-gradient(circle at 30% 0, #f5c96b 0, #f58b3b 35%, #1a1410 80%);
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+        }
+
+        .knob::after {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 7px;
+            background: #1a1410;
+            border-radius: 999px;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .device-side {
+            display: grid;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .device-side h3 {
+            margin: 0 0 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent-soft);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid #303046;
+            background: rgba(5,5,12,0.8);
+            font-size: 11px;
+        }
+
+        .pill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--accent);
+        }
+
+        .section {
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: radial-gradient(circle at top, #151520 0, #050509 60%);
+            padding: 20px 18px 18px;
+        }
+
+        .section h2 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section p {
+            margin: 0 0 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .section-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: #101018;
+            padding: 12px 12px 10px;
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 14px;
+        }
+
+        .card p {
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: var(--accent-soft);
+            margin-top: 6px;
+        }
+
+        .list {
+            margin: 8px 0 0;
+            padding-left: 16px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .list li {
+            margin-bottom: 4px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            font-size: 11px;
+            color: var(--muted);
+            border-top: 1px solid #151520;
+            padding-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: space-between;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--accent-soft);
+        }
+
+        .badge span {
+            font-size: 14px;
+        }
+
+        .danger-note {
+            color: var(--danger);
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <div class="logo-wrap">
+            <div class="logo-mark">
+                <span>VF</span>
+            </div>
+            <div class="logo-text">
+                <div class="logo-text-main">VINYLFUN</div>
+                <div class="logo-text-sub">analogowy klimat · cyfrowa wygoda</div>
+            </div>
+        </div>
+        <div class="header-cta">
+            <a href="#kup">
+                <span>●</span> Zobacz zestaw
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div>
+                <div class="hero-kicker">urządzenie audio z efektem winylowym</div>
+                <h1 class="hero-title">
+                    Brzmienie <span>winylu</span> bez gramofonu.<br>
+                    Włączasz. Gra.
+                </h1>
+                <p class="hero-sub">
+                    VinylFun to kompaktowe urządzenie audio, które po włączeniu automatycznie odtwarza przygotowaną muzykę
+                    z charakterystycznym, ciepłym efektem winylowym. Idealne do lokali, sklepów, salonów i przestrzeni,
+                    w których liczy się klimat – a nie obsługa sprzętu.
+                </p>
+                <div class="hero-bullets">
+                    <span>Muzyka startuje automatycznie po włączeniu zasilania</span>
+                    <span>Efekt winylowy: trzaski, szum, ciepłe brzmienie</span>
+                    <span>Bez klawiatury, myszy, internetu i logowania</span>
+                </div>
+                <div class="hero-cta-row">
+                    <a class="btn-primary" href="#kup">
+                        <span>▶</span> Zobacz, co jest w zestawie
+                    </a>
+                    <div class="btn-ghost">Dla lokali, sklepów, salonów, barber shopów</div>
+                </div>
+                <div class="hero-note">
+                    Włączasz przyciskiem Power. Reszta dzieje się sama.
+                </div>
+            </div>
+
+            <!-- PSEUDO-URZĄDZENIE -->
+            <div class="hero-device">
+                <div class="device-top">
+                    <div class="device-name">VINYLFUN · TINY AUDIO UNIT</div>
+                    <div class="device-tag">AUTOMATYCZNE ODTWARZANIE</div>
+                </div>
+                <div class="device-main">
+                    <div class="device-front">
+                        <div class="device-front-inner">
+                            <div class="device-row">
+                                <div class="device-label">FRONT PANEL</div>
+                                <div class="device-leds">
+                                    <div class="led on"></div>
+                                    <div class="led"></div>
+                                    <div class="led"></div>
+                                </div>
+                            </div>
+                            <div class="device-screen">
+                                <div class="device-screen-line">
+                                    <span>STATUS</span><span>ONLINE · READY</span>
+                                </div>
+                                <div class="device-screen-line">
+                                    <span>MODE</span><span>VINYL AMBIENT LOOP</span>
+                                </div>
+                                <div class="device-screen-line">
+                                    <span>CONTROL</span><span>AUTO START · NO UI</span>
+                                </div>
+                                <div class="device-screen-line">
+                                    <span>OUTPUT</span><span>LINE OUT · FULL RANGE</span>
+                                </div>
+                            </div>
+                            <div class="device-knob-row">
+                                <div class="knob"></div>
+                                <div class="knob"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-side">
+                        <h3>Co robi VinylFun?</h3>
+                        <div class="pill">
+                            <div class="pill-dot"></div>
+                            <span>Włącza się jak sprzęt audio, nie jak komputer</span>
+                        </div>
+                        <div class="pill">
+                            <div class="pill-dot"></div>
+                            <span>Automatycznie odtwarza przygotowaną muzykę w pętli</span>
+                        </div>
+                        <div class="pill">
+                            <div class="pill-dot"></div>
+                            <span>Dodaje efekt winylowy – bez gramofonu i płyt</span>
+                        </div>
+                        <div class="pill">
+                            <div class="pill-dot"></div>
+                            <span>Idealny do lokali, które chcą klimat, a nie playlisty</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ZESTAW -->
+        <section id="kup" class="section">
+            <h2>Zestaw VinylFun – co dostajesz w pudełku</h2>
+            <p>
+                VinylFun sprzedawany jest jako gotowe urządzenie audio oparte na komputerze Tiny. Każdy egzemplarz jest
+                ręcznie przygotowany, przetestowany i skonfigurowany tak, aby po podłączeniu do zasilania i sprzętu audio
+                po prostu grał.
+            </p>
+            <div class="section-grid">
+                <div class="card">
+                    <h3>Komputer Tiny</h3>
+                    <p>
+                        Kompaktowy komputer klasy Tiny, przygotowany do pracy jako urządzenie audio. Cichy, energooszczędny,
+                        zoptymalizowany pod stabilne odtwarzanie muzyki.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Zasilacz</h3>
+                    <p>
+                        Odpowiedni zasilacz sieciowy dopasowany do urządzenia. Wystarczy podłączyć do gniazdka 230V – bez
+                        dodatkowych akcesoriów.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Kable audio</h3>
+                    <p>
+                        Zestaw niezbędnych kabli do podłączenia urządzenia do głośników, wzmacniacza lub miksera – w zależności
+                        od konfiguracji Twojego systemu.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Instrukcja obsługi</h3>
+                    <p>
+                        Drukowana instrukcja w języku polskim: jak podłączyć, jak włączyć, jak regulować głośność, jak bezpiecznie
+                        wyłączać urządzenie.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Konfiguracja audio</h3>
+                    <p>
+                        Wstępnie przygotowane środowisko audio z efektem winylowym. Po włączeniu urządzenia muzyka startuje
+                        automatycznie – bez klikania.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Wsparcie przy starcie</h3>
+                    <p>
+                        Zdalna pomoc przy pierwszym uruchomieniu (opcjonalnie). Jeśli chcesz, przeprowadzę Cię krok po kroku
+                        przez podłączenie i test.
+                    </p>
+                </div>
+            </div>
+            <p class="tagline">
+                Zestaw dostarczany jest w bezpiecznym opakowaniu serwisowym (karton + zabezpieczenia). Urządzenie może być
+                sprzętem poleasingowym – każdy egzemplarz jest dokładnie sprawdzony i przygotowany do pracy.
+            </p>
+            <p style="margin-top: 10px;">
+                <a class="btn-primary" href="https://allegro.pl" target="_blank" rel="noopener noreferrer">
+                    <span>★</span> Kup VinylFun na Allegro
+                </a>
+            </p>
+        </section>
+
+        <!-- JAK DZIAŁA -->
+        <section class="section">
+            <h2>Jak działa VinylFun – w praktyce</h2>
+            <div class="section-grid">
+                <div class="card">
+                    <h3>1. Podłączasz</h3>
+                    <ul class="list">
+                        <li>Podłącz zasilacz do urządzenia i gniazdka 230V.</li>
+                        <li>Podłącz kabel audio do głośników lub wzmacniacza.</li>
+                        <li>Ustaw głośność na sprzęcie audio na poziomie ok. 40–50%.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>2. Włączasz</h3>
+                    <ul class="list">
+                        <li>Naciskasz przycisk <strong>Power</strong> na urządzeniu.</li>
+                        <li>Po kilkunastu sekundach system startuje.</li>
+                        <li>Nie musisz nic klikać – nie ma klawiatury ani myszy.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>3. Gra samo</h3>
+                    <ul class="list">
+                        <li>Muzyka uruchamia się automatycznie.</li>
+                        <li>Efekt winylowy jest wbudowany i działa cały czas.</li>
+                        <li>Urządzenie może grać wiele godzin bez przerwy.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="tagline">
+                VinylFun działa jak nowoczesny gramofon: włączasz – gra. Bez logowania, bez aktualizacji, bez kombinowania.
+            </p>
+        </section>
+
+        <!-- DLA KOGO -->
+        <section class="section">
+            <h2>Dla kogo jest VinylFun?</h2>
+            <div class="section-grid">
+                <div class="card">
+                    <h3>Lokale gastronomiczne</h3>
+                    <p>
+                        Kawiarnie, bary, restauracje, bistro – wszędzie tam, gdzie chcesz mieć klimat, a nie bawić się w playlisty
+                        i logowanie do serwisów streamingowych.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Sklepy i butiki</h3>
+                    <p>
+                        Sklepy odzieżowe, concept story, butiki vintage – tło muzyczne z charakterem, które podkreśla atmosferę
+                        miejsca.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Salony i studia</h3>
+                    <p>
+                        Barber shopy, salony fryzjerskie, kosmetyczne, studia tatuażu – muzyka, która tworzy nastrój, a nie wymaga
+                        obsługi.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO PRAWNE / TECHNICZNE -->
+        <section class="section">
+            <h2>Informacje techniczne i prawne</h2>
+            <p>
+                VinylFun sprzedawany jest jako kompletne urządzenie audio oparte na komputerze Tiny. System operacyjny jest
+                skonfigurowany wyłącznie w zakresie niezbędnym do działania funkcji audio. Nie sprzedaję systemu operacyjnego
+                jako osobnego produktu.
+            </p>
+            <p>
+                Urządzenie działa offline – nie wymaga połączenia z internetem, kont użytkownika ani logowania do serwisów
+                zewnętrznych. Głośność regulujesz wyłącznie na swoim sprzęcie audio (głośniki, wzmacniacz, mikser).
+            </p>
+            <p class="danger-note">
+                Uwaga: nie wyłączaj urządzenia poprzez odłączanie zasilania z gniazdka. Zawsze używaj przycisku Power.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="badge">
+            <span>◎</span> Ręcznie przygotowane urządzenie audio
+        </div>
+        <div>© VinylFun – projekt autorski. Wszystkie prawa zastrzeżone.</div>
+    </footer>
+</div>
+</body>
+</html>
